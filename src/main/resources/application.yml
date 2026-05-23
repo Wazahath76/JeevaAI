@@ -55,7 +55,7 @@ logging:
 management:
   endpoints:
     web:
-      base-path: /api/actuator
+      base-path: /actuator
       exposure:
         include: health
   endpoint:

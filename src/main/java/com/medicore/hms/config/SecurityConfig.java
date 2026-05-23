@@ -34,6 +34,8 @@ public class SecurityConfig {
         "/auth/login",
         "/auth/refresh",
         "/actuator/health",
+            "/actuator/**",
+            "/api/actuator/**",
         "/actuator/info"
     };
 
