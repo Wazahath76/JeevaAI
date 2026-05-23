@@ -5,7 +5,7 @@ spring:
   datasource:
     url: ${DB_URL:jdbc:postgresql://localhost:5432/medicore_db}
     username: ${DB_USERNAME:postgres}
-    password: ${DB_PASSWORD:wajju7861}
+    password: ${DB_PASSWORD:pass}
     driver-class-name: org.postgresql.Driver
 
   jpa:
