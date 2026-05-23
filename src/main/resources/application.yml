@@ -51,3 +51,13 @@ logging:
   level:
     com.medicore: INFO
     org.springframework.security: WARN
+
+management:
+  endpoints:
+    web:
+      base-path: /api/actuator
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never

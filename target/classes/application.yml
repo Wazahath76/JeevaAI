@@ -2,105 +2,52 @@ spring:
   application:
     name: medicore-hms
 
-  # PostgreSQL
   datasource:
-    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:medicore_db}
-    username: ${DB_USER:postgres}
-    password: ${DB_PASS:wajju7861}
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/medicore_db}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:wajju7861}
     driver-class-name: org.postgresql.Driver
-    hikari:
-      maximum-pool-size: 20
-      minimum-idle: 5
-      connection-timeout: 30000
-      idle-timeout: 600000
-      max-lifetime: 1800000
 
-  # JPA / Hibernate
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: false
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
-        default_schema: public
-        jdbc:
-          batch_size: 25
-        order_inserts: true
-        order_updates: true
 
-  # Redis
   data:
     redis:
       host: ${REDIS_HOST:localhost}
       port: ${REDIS_PORT:6379}
-      password: ${REDIS_PASS:}
-      timeout: 2000ms
-      lettuce:
-        pool:
-          max-active: 10
-          max-idle: 5
-          min-idle: 2
+      password: ${REDIS_PASSWORD:}
 
-  # Kafka - disabled for local dev without Kafka
-  autoconfigure:
-    exclude:
-      - org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 
-  # Jackson
-  jackson:
-    serialization:
-      write-dates-as-timestamps: false
-    deserialization:
-      fail-on-unknown-properties: false
-    time-zone: UTC
-
-# JWT
-jwt:
-  secret: bXlTdXBlclNlY3JldEtleUZvck1lZGlDb3JlSE1TUHJvZHVjdGlvbjIwMjQ=
-  access-token-expiry: 86400000
-  refresh-token-expiry: 604800000
-
-# Anthropic AI
-anthropic:
-  api-key: ${ANTHROPIC_API_KEY:sk-ant-your-key-here}
-  api-url: https://api.anthropic.com/v1/messages
-  model: claude-sonnet-4-20250514
-  max-tokens: 2000
-  timeout-seconds: 30
-
-# Server
 server:
-  port: ${SERVER_PORT:8080}
+  port: ${PORT:8080}
   servlet:
     context-path: /api
-  error:
-    include-message: always
-    include-binding-errors: always
 
-# Logging
+cors:
+  allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:3000}
+
+jwt:
+  secret: ${JWT_SECRET:bXlTdXBlclNlY3JldEtleUZvck1lZGlDb3JlSE1TUHJvZHVjdGlvbjIwMjQ=}
+  access-token-expiry: ${JWT_ACCESS_EXPIRY:86400000}
+  refresh-token-expiry: ${JWT_REFRESH_EXPIRY:604800000}
+
+anthropic:
+  api-key: ${ANTHROPIC_API_KEY:}
+  model: claude-sonnet-4-20250514
+  api-url: ${ANTHROPIC_API_URL:https://api.anthropic.com}
+  max-tokens: ${ANTHROPIC_MAX_TOKENS:1000}
+  timeout-seconds: ${ANTHROPIC_TIMEOUT:30}
+
 logging:
   level:
-    com.medicore.hms: DEBUG
-    org.springframework.security: INFO
-    org.hibernate.SQL: WARN
-  pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
-
-# Actuator
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,info,metrics
-  endpoint:
-    health:
-      show-details: always
-
-# CORS
-cors:
-  allowed-origins: ${CORS_ORIGINS:http://localhost:3000}
-  allowed-methods: GET,POST,PUT,DELETE,PATCH,OPTIONS
-  allowed-headers: "*"
-  max-age: 3600
+    com.medicore: INFO
+    org.springframework.security: WARN
