@@ -49,11 +49,20 @@ public class AiRecommendationServiceImpl implements AiRecommendationService {
     @Value("${anthropic.timeout-seconds}")
     private int timeoutSeconds;
 
+    @Value("${anthropic.api-key}")
+    private String anthropicApiKey;
+
+
+
     // ── Request recommendation ────────────────────────────────────────────────
 
     @Override
     @Transactional
     public AiRecommendationResponse requestRecommendation(UUID patientId) {
+
+        if (anthropicApiKey == null || anthropicApiKey.isBlank()) {
+            throw new AiServiceException("AI service not configured. Contact administrator.");
+        }
         Patient patient = patientRepository.findByIdWithDoctors(patientId)
             .orElseThrow(() -> new ResourceNotFoundException("Patient", "id", patientId));
 
