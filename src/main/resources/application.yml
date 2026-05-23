@@ -6,7 +6,7 @@ spring:
   datasource:
     url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:medicore_db}
     username: ${DB_USER:postgres}
-    password: ${DB_PASS:wajju7861}
+    password: ${DB_PASS:}
     driver-class-name: org.postgresql.Driver
     hikari:
       maximum-pool-size: 20
